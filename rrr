@@ -1,0 +1,63 @@
+def error_notif(num1, num2, operator):
+  try:
+    int(num1)
+  except:
+    return "Error: Numbers must only contain digits."
+  try:
+    int(num2)
+  except:
+    return "Error: Numbers must only contain digits."
+  try:
+    if len(num1) > 4 or len(num2) > 4:
+      raise BaseException
+  except:
+    return "Error: Numbers cannot be more than four digits."
+  try:
+    if operator != '+' and operator != '-':
+      raise BaseException
+  except:
+    return "Error: Operator must be '+' or '-'."
+  return ""
+
+def arithmetic_arranger (problems, dweet=False):
+  start = True
+  margin = "    "
+  line1 = line2 = line3 = line4 = “"
+  try:
+    if len(problems) > 5:
+      raise BaseException
+  except:
+    return "Error: Too many problems."
+  for n in problems:
+    prob = n.split()
+    num1 = prob[0]
+    operator = prob[1]
+    num2 = prob[2]
+    check = error_notif(num1, num2, operator)
+    if check != "":
+      return check
+    number1 = int(num1)
+    number2 = int(num2)
+    body = max(len(num1), len(num2))
+    if start == True:
+      line1 += num1.rjust(body + 2)
+      line2 += operator + ' ' + num2.rjust(body)
+      line3 += '-' * (body + 2)
+      if dweet == True:
+        if operator == '+':
+          line4 += str(number1 + number2).rjust(body + 2)
+        else:
+          line4 += str(number1 - number2).rjust(body + 2)
+      start = False
+    else:
+      line1 += num1.rjust(body + 6)
+      line2 += operator.rjust(5) + ' ' + num2.rjust(body)
+      line3 += margin + '-' * (body + 2)
+      if dweet == True:
+          if operator == '+': 
+              line4 += margin + str(number1 + number2).rjust(body + 2)
+          else:
+              line4 += margin + str(number1 - number2).rjust(body + 2)
+    if dweet == True:
+      return line1 + '\n' + line2 + '\n' + line3 + '\n' + line4
+    return line1 + '\n' + line2 + '\n' + line3
